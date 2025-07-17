@@ -1,0 +1,14 @@
+{
+    "builds": [
+        {
+            "src": "broadd-mcp/app.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "broadd-mcp/app.py"
+        }
+    ]
+}
