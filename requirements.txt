@@ -1,0 +1,4 @@
+selenium
+python-dotenv
+fastapi
+fastapi_mcp
