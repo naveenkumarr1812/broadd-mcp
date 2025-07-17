@@ -13,7 +13,7 @@ ENV CHROME_BIN=/usr/bin/chromium
 ENV PATH=$PATH:/usr/bin/chromium
 
 # Copy project
-WORKDIR /app
+WORKDIR /broadd-mcp
 COPY . .
 
 # Install Python dependencies
@@ -21,4 +21,4 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Expose port and run app
 ENV PORT=8000
-CMD ["python", "main.py"]
+CMD ["python", "app.py"]
