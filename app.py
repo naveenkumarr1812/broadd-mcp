@@ -20,7 +20,7 @@ app = FastAPI()
 # Define a root endpoint
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the FLOCARD server!"}
+    return {"message": "Welcome to the BROADD server!"}
 
 
 # MCP tool: navigate and search on Google
