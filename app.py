@@ -14,6 +14,7 @@ playwright = None
 browser: Optional[BrowserContext] = None
 page: Optional[Page] = None
 
+# Persistent profile directory
 USER_DATA_DIR = os.path.expanduser("~/.playwright-profile")
 
 def detect_default_browser_path() -> Optional[str]:
@@ -21,7 +22,6 @@ def detect_default_browser_path() -> Optional[str]:
     possible_paths = []
 
     if system == "Windows":
-        # Brave, Chrome, Edge (priority order)
         possible_paths += [
             "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
             "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
@@ -36,7 +36,7 @@ def detect_default_browser_path() -> Optional[str]:
             "/usr/bin/microsoft-edge",
             "/usr/bin/firefox",
         ]
-    elif system == "Darwin":  # macOS
+    elif system == "Darwin":
         possible_paths += [
             "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
             "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -80,7 +80,6 @@ async def get_browser() -> Page:
 
     playwright = await async_playwright().start()
 
-    # Determine browser type based on path
     if "firefox" in browser_path.lower():
         browser_type = playwright.firefox
     else:
