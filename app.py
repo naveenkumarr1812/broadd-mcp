@@ -240,7 +240,7 @@ class NavigateToUrlInput(BaseModel):
     wait_for_selector: Optional[str] = None
     wait_for_text: Optional[str] = None
 
-async def get_browser_context(browser_name: str = None) -> Page:
+async def get_browser_context(browser_name: Optional[str] = None) -> Page:
     global playwright, browser_context, page, current_browser
     
     # Use current browser if no specific browser requested
@@ -255,7 +255,7 @@ async def get_browser_context(browser_name: str = None) -> Page:
     if browser_context and current_browser != browser_name:
         await browser_context.close()
         if playwright:
-            await playwright.stop()
+            playwright.stop()
         browser_context = None
         playwright = None
         page = None
@@ -469,7 +469,7 @@ async def close(input: CloseInput):
     if browser_context:
         await browser_context.close()
         if playwright:
-            await playwright.stop()
+            playwright.stop
         browser_context = None
         playwright = None
         page = None
@@ -508,12 +508,15 @@ async def navigate_to_url(input: NavigateToUrlInput):
             await page.set_extra_http_headers(input.extra_http_headers)
         
         # Determine wait until condition
-        wait_until_map = {
-            "load": "load",
-            "domcontentloaded": "domcontentloaded", 
-            "networkidle": "networkidle"
-        }
-        wait_until = wait_until_map.get(input.wait_until, "load")
+        wait_until_value = input.wait_until or "load"
+        if wait_until_value == "domcontentloaded":
+            wait_until = "domcontentloaded"
+        elif wait_until_value == "networkidle":
+            wait_until = "networkidle"
+        elif wait_until_value == "commit":
+            wait_until = "commit"
+        else:
+            wait_until = "load"
         
         # Navigate to URL with timeout and wait condition
         response = await page.goto(
